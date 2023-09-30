@@ -1,0 +1,36 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0.0",
+	"FriendlyName": "Dolby Atmos",
+	"Description": "The Dolby Atmos plugin enables a Dolby Atmos experience for the Unreal Engine by transforming the intended position of game audio objects relative to the player to accurate placement in the game soundscape. Dolby Atmos uses three-dimensional precision game audio to immerse players in a more realistic, more intense gaming experience on supported Dolby Atmos platforms.",
+	"Category": "Audio",
+	"CreatedBy": "Dolby Laboratories",
+	"CreatedByURL": "dolby.com",
+	"DocsURL": "https://games.dolby.com/ue-atmos",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/da9e6332145a42a1b186ef9e84945348",
+	"SupportURL": "https://games.dolby.com/atmos/dolby-atmos-for-unreal-engine/support",
+	"EngineVersion": "5.2.0",
+	"CanContainContent": false,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "DolbyAtmos",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Android",
+				"Win64",
+				"XSX"
+			]
+		},
+		{
+			"Name": "DolbyAtmosEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	]
+}
