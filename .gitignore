@@ -3,6 +3,7 @@
 
 # Builds
 */Build/**
+*/build/**
 
 # Binary Files
 */Binaries/**
