@@ -26,7 +26,7 @@
 
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
-    function getLimit(value) 
+    function getLimit(value)
     {
         if (limit.ra.min == null || limit.ra.min > value[0]) {
             limit.ra.min = value[0];
@@ -106,7 +106,7 @@
                 const dec = parseFloat(columns[decIndex]);
                 const ph_qual = columns[ph_qualIndex];
                 const cc_flags = columns[cc_flagsIndex];
-                
+
                 const w1mpro = parseFloat(columns[w1mproIndex]);
                 const w1sat = parseFloat(columns[w1satIndex]);
                 const w1snr = parseFloat(columns[w1snrIndex]);
@@ -126,28 +126,28 @@
                 if (ph_qual != null && (ph_qual[0] == 'A' || ph_qual[0] == 'B')
                     && cc_flags == "0000" && w1sat < 0.1 && w1snr > 3)
                 {
-                    processedContents[3.4].push([ra, dec, w1mpro]);
+                    processedContents[3.4].push({"ra":ra, "dec": dec, "wavelength": w1mpro});
                     getLimit([ra, dec, w1mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[1] == 'A' || ph_qual[1] == 'B')
                     && cc_flags == "0000" && w2sat < 0.1 && w2snr > 3)
                 {
-                    processedContents[4.6].push([ra, dec, w2mpro]);
+                    processedContents[4.6].push({"ra":ra, "dec": dec, "wavelength": w2mpro});
                     getLimit([ra, dec, w2mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[2] == 'A' || ph_qual[2] == 'B')
                     && cc_flags == "0000" && w3sat < 0.1 && w3snr > 3)
                 {
-                    processedContents[12].push([ra, dec, w3mpro]);
+                    processedContents[12].push({"ra":ra, "dec": dec, "wavelength": w3mpro});
                     getLimit([ra, dec, w3mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[3] == 'A' || ph_qual[3] == 'B')
                     && cc_flags == "0000" && w4sat < 0.1 && w4snr > 3)
                 {
-                    processedContents[22].push([ra, dec, w4mpro]);
+                    processedContents[22].push({"ra":ra, "dec": dec, "wavelength": w4mpro});
                     getLimit([ra, dec, w4mpro]);
                 }
             }
@@ -162,8 +162,26 @@
     {
         document.getElementById('output').textContent = JSON.stringify(limit);
         console.log(limit);
-
+		let output = {};
+		normalizeToUnitRange(processedContents, limit, output);
     }
+
+	function normalizeToUnitRange(processedContents, limit, output)
+	{
+		for (const i in processedContents)
+		{
+			output[i] = {};
+			for (const j in processedContents[i])
+			{
+				output[i][j] = {};
+				output[i][j].ra = (processedContents[i][j].ra - limit.ra.min) * 30 / (limit.ra.max - limit.ra.min) - 15;
+				output[i][j].dec = (processedContents[i][j].dec - limit.dec.min) * 30 / (limit.dec.max - limit.dec.min) - 15;
+				output[i][j].wavelength = (processedContents[i][j].wavelength - limit.mpro.min) * 30 / (limit.mpro.max - limit.mpro.min) - 15;
+				if (j < 4)
+					console.log(output[i][j]);
+			}
+		}
+	}
 
 
 </script>
