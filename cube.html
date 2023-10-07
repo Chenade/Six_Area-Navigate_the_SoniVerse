@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Cube with Spheres</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        button { margin: 10px; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <button onclick="moveSpheres(1, 0, 0)">Move Right</button>
+    <button onclick="moveSpheres(-1, 0, 0)">Move Left</button>
+    <button onclick="moveSpheres(0, 1, 0)">Move Up</button>
+    <button onclick="moveSpheres(0, -1, 0)">Move Down</button>
+    <button onclick="moveSpheres(0, 0, 1)">Move Forward</button>
+    <button onclick="moveSpheres(0, 0, -1)">Move Backward</button>
+    <button onclick="changeDistance(0.1)">Increase Distance</button>
+    <button onclick="changeDistance(-0.1)">Decrease Distance</button>
+    <script src="cube.js"></script>
+</body>
+</html>
