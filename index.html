@@ -160,25 +160,26 @@
 
     function printData(processedContents, limit)
     {
-        document.getElementById('output').textContent = JSON.stringify(limit);
-        console.log(limit);
-		let output = {};
+        let output = {};
 		normalizeToUnitRange(processedContents, limit, output);
+        document.getElementById('output').textContent = JSON.stringify(output);
+        localStorage.setItem('dataset', JSON.stringify(output));
+        window.location.href = "./cube.html";
+        
     }
 
 	function normalizeToUnitRange(processedContents, limit, output)
 	{
 		for (const i in processedContents)
 		{
-			output[i] = {};
+			output[i] = [];
 			for (const j in processedContents[i])
 			{
-				output[i][j] = {};
-				output[i][j].ra = (processedContents[i][j].ra - limit.ra.min) * 30 / (limit.ra.max - limit.ra.min) - 15;
-				output[i][j].dec = (processedContents[i][j].dec - limit.dec.min) * 30 / (limit.dec.max - limit.dec.min) - 15;
-				output[i][j].wavelength = (processedContents[i][j].wavelength - limit.mpro.min) * 30 / (limit.mpro.max - limit.mpro.min) - 15;
-				if (j < 4)
-					console.log(output[i][j]);
+				let tmp = {};
+				tmp.ra = (processedContents[i][j].ra - limit.ra.min) * 30 / (limit.ra.max - limit.ra.min) - 15;
+				tmp.dec = (processedContents[i][j].dec - limit.dec.min) * 30 / (limit.dec.max - limit.dec.min) - 15;
+				tmp.wavelength = (processedContents[i][j].wavelength - limit.mpro.min) * 30 / (limit.mpro.max - limit.mpro.min) - 15;
+                output[i].push(tmp);
 			}
 		}
 	}

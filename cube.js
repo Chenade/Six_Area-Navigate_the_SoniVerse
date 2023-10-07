@@ -3,7 +3,7 @@ const scene = new THREE.Scene();
 
 // Set up the camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 10); // Set initial position along the z-axis
+camera.position.set(0, 0, 40); // Set initial position along the z-axis
 scene.add(camera);
 
 // Set up the renderer
@@ -12,7 +12,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Create a wireframe cube
-const cubeGeometry = new THREE.BoxGeometry(5, 5, 5);
+const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
 const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 const cube = new THREE.Mesh(cubeGeometry, wireframeMaterial);
 scene.add(cube);
@@ -20,29 +20,28 @@ scene.add(cube);
 // Array to store sphere objects
 const spheres = [];
 
-// Define sphere coordinates
-const sphereCoordinates = [
-    { x: -1, y: -1, z: -1 },
-    { x: 1, y: -1, z: -1 },
-    { x: -1, y: -1, z: 1 },
-    { x: 1, y: -1, z: 1 },
-    { x: -1, y: 1, z: -1 },
-    { x: 1, y: 1, z: -1 },
-    { x: -1, y: 1, z: 1 },
-    { x: 1, y: 1, z: 1 }
-];
+//get local storage itmes
+var local = localStorage.getItem("dataset");
+let data = JSON.parse(local);
+let color = {
+    3.4: 0xff0000,
+    4.6: 0x00ff00,
+    12: 0xff00ff,
+    22: 0xffff00
+};
 
-// Create spheres and add them to the scene
-const sphereRadius = 0.2;
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
-sphereCoordinates.forEach(coord => {
-    const sphereGeometry = new THREE.SphereGeometry(sphereRadius);
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.set(coord.x, coord.y, coord.z);
-    cube.add(sphere); // Add spheres to the cube
-    spheres.push(sphere); // Add spheres to the array for future reference
-});
+for (const [key, value] of Object.entries(data)) 
+{
+    for (const i in data[key]) 
+    {
+        const sphereGeometry = new THREE.SphereGeometry(0.1);
+        const sphereMaterial = new THREE.MeshBasicMaterial({ color: color[key] });
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        sphere.position.set(data[key][i].ra, data[key][i].dec, data[key][i].wavelength);
+        cube.add(sphere);
+        spheres.push(sphere);
+    }
+}
 
 // Set up the controls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -73,6 +72,12 @@ function changeDistance(distanceChange) {
         sphere.position.y *= ratio;
         sphere.position.z *= ratio;
     });
+}
+
+function getDelta()
+{
+    console.log("getDelta");
+    
 }
 
 // Set up animation
