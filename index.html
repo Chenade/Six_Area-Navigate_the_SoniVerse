@@ -20,13 +20,13 @@
         window.location.href = "./sound.html";
     });
 
-    let limit = {};
+    let limit = {ra: {min: null, max: null}, dec: {min: null, max: null}, mpro: {min: null, max: null}};
     let processedContents = {};
 
 
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
-    function getLimit(limit, value) 
+    function getLimit(value) 
     {
         if (limit.ra.min == null || limit.ra.min > value[0]) {
             limit.ra.min = value[0];
@@ -71,13 +71,6 @@
                 4.6: [],
                 12: [],
                 22: []
-            };
-
-            limit = {
-                3.4: {ra: { min: null, max: null }, dec: { min: null, max: null }, mpro: { min: null, max: null }},
-                4.6: {ra: { min: null, max: null }, dec: { min: null, max: null }, mpro: { min: null, max: null }},
-                12: {ra: { min: null, max: null }, dec: { min: null, max: null }, mpro: { min: null, max: null }},
-                22: {ra: { min: null, max: null }, dec: { min: null, max: null }, mpro: { min: null, max: null }}
             };
 
             const headerRow = rows[0].trim().split('|');
@@ -134,28 +127,28 @@
                     && cc_flags == "0000" && w1sat < 0.1 && w1snr > 3)
                 {
                     processedContents[3.4].push([ra, dec, w1mpro]);
-                    getLimit(limit[3.4], [ra, dec, w1mpro]);
+                    getLimit([ra, dec, w1mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[1] == 'A' || ph_qual[1] == 'B')
                     && cc_flags == "0000" && w2sat < 0.1 && w2snr > 3)
                 {
                     processedContents[4.6].push([ra, dec, w2mpro]);
-                    getLimit(limit[4.6], [ra, dec, w2mpro]);
+                    getLimit([ra, dec, w2mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[2] == 'A' || ph_qual[2] == 'B')
                     && cc_flags == "0000" && w3sat < 0.1 && w3snr > 3)
                 {
                     processedContents[12].push([ra, dec, w3mpro]);
-                    getLimit(limit[12], [ra, dec, w3mpro]);
+                    getLimit([ra, dec, w3mpro]);
                 }
 
                 if (ph_qual != null && (ph_qual[3] == 'A' || ph_qual[3] == 'B')
                     && cc_flags == "0000" && w4sat < 0.1 && w4snr > 3)
                 {
                     processedContents[22].push([ra, dec, w4mpro]);
-                    getLimit(limit[22], [ra, dec, w4mpro]);
+                    getLimit([ra, dec, w4mpro]);
                 }
             }
 
@@ -168,6 +161,7 @@
     function printData(processedContents, limit)
     {
         document.getElementById('output').textContent = JSON.stringify(limit);
+        console.log(limit);
 
     }
 
