@@ -45,9 +45,9 @@ function parseWise(contents)
     const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
     const databaseValue = databaseLine ? databaseLine[1].trim() : null;
     
-    if (!databaseValue || !databaseValue.includes("AllWISE"))
+    if (!databaseValue || !databaseValue.includes("allwise_p3as_psd"))
     {
-        alert("Database value does not contain 'ALLWISE'.");
+        alert("Database value does not contain 'allwise_p3as_psd'.");
     }
     else
     {
@@ -339,9 +339,9 @@ function parseSpiter(contents)
     const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
     const databaseValue = databaseLine ? databaseLine[1].trim() : null;
     
-    if (!databaseValue || !databaseValue.includes("dr4_off_cloud_full"))
+    if (!databaseValue || !databaseValue.includes("iraspsc"))
     {
-        alert("Database value does not contain 'dr4_off_cloud_full'.");
+        alert("Database value does not contain 'iraspsc'.");
     }
     else
     {
@@ -363,28 +363,17 @@ function parseSpiter(contents)
         
         const raIndex = headerRow.indexOf('ra');
         const decIndex = headerRow.indexOf('dec');
-        const q_posIndex = headerRow.indexOf('q_pos');
-        const q_mergeIndex = headerRow.indexOf('q_merge');
-        const j_flux_cIndex = headerRow.indexOf('j_flux_c');
+        const fqual_60Index = headerRow.indexOf('fqual_60');
 
         for (let i = 4; i < rows.length; i++)
         {
             const columns = rows[i].trim().split(/\s+/);
             const ra = parseFloat(columns[raIndex]);
             const dec = parseFloat(columns[decIndex]);
+            const fqual_60 = parseFloat(columns[fqual_60Index]);
 
-            const q_pos = (columns[q_posIndex]);
-            const q_merge = (columns[q_mergeIndex]);
-            const j_flux_c = parseFloat(columns[j_flux_cIndex]);
-
-            if (q_pos == 'A' && q_merge == 'A')
-            {
-                if (processedContents['far-infrared'] == null) {
-                    processedContents['far-infrared'] = [];
-                }
-                processedContents['far-infrared'].push({"ra":ra, "dec": dec, "wavelength": j_flux_c});
-                getLimit([ra, dec, j_flux_c ], limit['far-infrared']);
-            }
+            processedContents['far-infrared'].push({"ra":ra, "dec": dec, "wavelength": fqual_60});
+            getLimit([ra, dec, fqual_60 ], limit['far-infrared']);
         }
         printData(processedContents, limit, 'far-infrared');
     }
@@ -406,7 +395,6 @@ function printData(processedContents, limit, category)
     let output = [];
     normalizeToUnitRange(processedContents, limit, output);
     sessionStorage.setItem(category, JSON.stringify(output[category]));
-    console.log(output);
 }
 
 function normalizeToUnitRange(processedContents, limit, output)

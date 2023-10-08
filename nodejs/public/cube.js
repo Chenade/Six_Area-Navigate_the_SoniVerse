@@ -18,11 +18,11 @@ if (sessionStorage.getItem("mid-infrared"))
     sessionStorage.removeItem("mid-infrared");
 }
 
-if (sessionStorage.getItem("far-infrared"))
-{
-    data["far-infrared"] = JSON.parse(sessionStorage.getItem("far-infrared"));
-    sessionStorage.removeItem("far-infrared");
-}
+// if (sessionStorage.getItem("far-infrared"))
+// {
+//     data["far-infrared"] = JSON.parse(sessionStorage.getItem("far-infrared"));
+//     sessionStorage.removeItem("far-infrared");
+// }
 
 let colors = {
     'optical': 0xff0000,

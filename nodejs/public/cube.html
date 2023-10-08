@@ -41,8 +41,20 @@
                 margin-top: 10px;
                 border: #EEEEEE solid 3px;
                 border-radius: 10px;
-                height: 90vh; padding: 20px;"
+                height: 90vh; padding: 20px;
+                overflow-y: auto; color: #eeeeee"
             >
+            <h6>Wavelengths</h6>
+            <p><b>Optical</b></p>
+            This is in the blue part of the visible spectrum. Observations in visible light provide a classic view of the stars and can highlight regions of ionized gas.
+            <p><b>Near-Infrared</b></p>
+            These wavelengths can penetrate dust more effectively than visible light. Observations in this range can reveal embedded young stars and give a more complete picture of the stellar population.
+            <p><b>Mid-Infrared</b></p>
+            This range is sensitive to warm dust and polycyclic aromatic hydrocarbons (PAHs). In star-forming regions like M16, you can learn about the dust temperature, distribution, and the early stages of star formation.
+            <p><b>Far-Infrared</b></p>
+            This range is dominated by emission from cold dust grains and molecular clouds. It's especially useful for understanding the cooler, denser regions where new stars may be forming.
+            Direction of Sonification
+            Note that the direction of sonification may only run along the values of the right ascension or of the declination, which represents the coordinates of the objects in the universe as observed from earth. The wavelength, on the other hand, is just a tool used by the telescopes to observe the brightness of the stars, and is not a characteristic of the star itself. E.g. sonification from left to right will sonify data in the ascending order of right ascension.
             </div>
         </div>
         <div class="col-3" style="height: 100vh;">
@@ -82,8 +94,8 @@
                 </div>
 
                 <div class="d-flex">
-                    <button class="btn-action w-100" onclick="changeDistance(1)" style="font-size: 1.4em;"><i class="fas fa-minus"></i></button>
-                    <button class="btn-action w-100" onclick="changeDistance(-1)" style="font-size: 1.4em;"><i class="fas fa-plus"></i></button>
+                    <button class="btn-action w-100" onclick="changeDistance(1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-plus"></i>&emsp;</button>
+                    <button class="btn-action w-100" onclick="changeDistance(-1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-minus"></i>&emsp;</button>
                 </div>
 
                 <button class="btn-action w-100" onclick="filterSpheres()" style="font-size: 1.4em;">Filter Spheres Inside the Box</button>

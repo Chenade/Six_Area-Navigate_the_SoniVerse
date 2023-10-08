@@ -24,11 +24,11 @@ if (sessionStorage.getItem("mid-infrared"))
     // sessionStorage.removeItem("mid-infrared");
 }
 
-if (sessionStorage.getItem("far-infrared"))
-{
-    data["W4"] = JSON.parse(sessionStorage.getItem("far-infrared"));
-    // sessionStorage.removeItem("far-infrared");
-}
+// if (sessionStorage.getItem("far-infrared"))
+// {
+//     data["W4"] = JSON.parse(sessionStorage.getItem("far-infrared"));
+//     // sessionStorage.removeItem("far-infrared");
+// }
 
 let sStar = {
   "W1": [],

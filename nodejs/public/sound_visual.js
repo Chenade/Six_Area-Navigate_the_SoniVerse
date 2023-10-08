@@ -32,7 +32,8 @@ for (const [key, value] of Object.entries(data))
             const sphereGeometry = new THREE.SphereGeometry(0.1);
             const sphereMaterial = new THREE.MeshBasicMaterial({ color: colors[key] });
             const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-            sphere.position.set(data[key][i][j][0], data[key][i][j][1], data[key][i][j][2]);
+            if (data[key][i][j])
+                sphere.position.set(data[key][i][j][0], data[key][i][j][1], data[key][i][j][2]);
             sphere.freqency = key;
             cube.add(sphere);
             spheres.push(sphere);

@@ -37,10 +37,8 @@
         <div class="row w-100" style="height: 50vh;">
             <div class="col-6 d-flex flex-column justify-content-center">
                 <h1 style="line-height: 3em;">Navigate the SoniVerse</h1>
-                <h2 style="">Welcome</h2>
-                <h4 style="padding-left: 3em; ">Information</h4>
-                <h4 style="padding-left: 3em; ">Information</h4>
-                <h4 style="padding-left: 3em; ">Information</h4>
+                <h4 style="">Come and explore the SoniVerse!</h2>
+                <h6 style="padding-left: 3em; ">An educational platform that blends interactive 3D visualizations and dynamic sonifications, allowing users to explore celestial wonders while fostering a deeper connection to astronomical data</h4>
                 <hr style="margin: 2em;">
                 <div class="">
                     <button id="start" class="btn-action" style="font-size: 2em;">Start</button>
@@ -54,10 +52,14 @@
                         ">
                 </div>
                 <div id="upload-container" style="display: none;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        HELP
+                      </button>
+                      <hr>
                     <p>WISE: <input type="file" id="parse_wise"><br></p>
                     <p>ZTF: <input type="file" id="parse_ztf"><br></p>
                     <p>2MASS: <input type="file" id="parse_2mass"><br></p>
-                    <p>Spiter: <input type="file" id="parse_spiter"><br></p>
+                    <p>IRAS: <input type="file" id="parse_spiter"><br></p>
                 </div>
                 <select id="select-object" style="
                             margin-top: 10px; 
@@ -67,25 +69,58 @@
                         ">
                     <option value="m4" style="font-size: 1.1em;">Messier 4 (M4)</option>
                     <option value="m16" style="font-size: 1.1em;">Messier 16 (M16)</option>
-                    <option value="antares" style="font-size: 1.1em;">Antares</option>
-                    <option value="hydra" style="font-size: 1.1em;">Hydra</option>
-                    <option value="m81" style="font-size: 1.1em;">Messier 81 (M81)</option>
+                    <option value="m80" style="font-size: 1.1em;">Messier 80 (M80)</option>
                     <option value="others" style="font-size: 1.1em;">Upload Your Own Data</option>
                 </select>
             </div>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content"  style="color: #222222">
+            <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Retrieving Data from IRSA:</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="color: #222222">
+                Step 1: Open your web browser and navigate to IRSA's homepage(https://irsa.ipac.caltech.edu/frontpage/).<br>
+                Step 2: On the middle left side of the page, you'll see an option titled "IRSA Viewer". Click on it.<br>
+                Step 3: Once you're in the viewer, navigate to the sub-navigation bar and click on "Catalogs".<br>
+                Step 4:<br>
+                At the top left corner, you'll find a drop-down bar labeled "Select Project". This is where you choose the astronomical mission or survey of interest. Options include "ZTF", "2MASS", "WISE", and "IRAS".<br>
+                For "WISE", select "ALLWISE Database" or "ALLWISE Source Catalog" based on the specific data you're interested in.<br>
+                For "ZTF", options include "ZTF Archive" and "ZTF DR19 Objects".<br>
+                For "IRAS", you can select "IRAS Faint Source Catalog v2.0 (FSC)".<br>
+                Step 5:<br>
+                Enter the coordinates or object name in the search bar located at the<br>
+                top right corner. Additionally, set your desired search method and<br>
+                specify the search radius.<br>
+                Step 6:<br>
+                Scroll down to the table in the middle bottom of the page. Here, you can see a list of variables associated with your selected catalog. Make sure to select all variables to get a comprehensive dataset.<br>
+                Step 7: Click the "Search" button to retrieve the data.<br>
+                Step 8:<br>
+                After the data loads, look for the save file icon represented by a floppy disk. Click on it and select the "tbl" format for output.<br>
+                Step 9: To gather data from various wavelengths, repeat the above steps and choose different projects or catalogs as needed.<br>
+                Step 10: Once you have downloaded all the datasets, you can upload them!<br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <script src="./parse.js"></script>
     <script src="./data/m4.js"></script>
     <script src="./data/m16.js"></script>
+    <script src="./data/m80.js"></script>
     <script>
         const images = {
             "m4": "./img/m4.png",
             "m16": "./img/m16.png",
-            "antares": "./img/antares.png",
-            "hydra": "./img/hydra.png",
-            "m81": "./img/m81.png",
+            "m80": "./img/m80.png",
         }
         const _groups = ["optical", "near-infrared", "mid-infrared", "far-infrared"];
         const selectObject = document.getElementById("select-object");
