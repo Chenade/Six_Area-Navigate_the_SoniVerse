@@ -11,7 +11,7 @@ function performKMeansClustering(data, k)
         }
         for (const i in  k)
         {
-            if ( k[i][nbr])  k[i][nbr] = Math.floor( k[i][nbr] / sum * 10);
+            if ( k[i][nbr])  k[i][nbr] = Math.floor( k[i][nbr] / sum * 50);
         }
     }
 

@@ -1,117 +1,85 @@
 class starsound {
   constructor(sumStar) {
-    this.sumStar = sumStar; // for ampplitude division
-    this.noiseDust = null;
-    this.osc = null;
-    this.BPF = null;
-    this.res = 0;
-    this.freq = 0; // x 
-    this.amp = 0; 
-    this.dur = 0; // y
-    this.startT = 0;
-    this.numPan = 0;
-    
+    this.sound = null;
+    this.sumStar = sumStar; // sum of stars at each slice
+    this.freq = [2.13, 0.83, 0.22, 0.016];
+    this.rate = 1.0; // z
+    this.amp = 0.0; // y
+    this.startT = 0.0;
+    this.numPan = 0.0; // x
   }
   
   // construct sound based on wavelength (W1~W4)
-  setW1(freq, dur, startT) {
-    // this.pan3D = new p5.Panner3D("HRTF");
-    this.noiseDust = new p5.Noise();
-    this.osc = new p5.Oscillator('sawtooth');
-    this.BPF = new p5.Filter('bandpass');
-    
-    this.res = 5;
-    this.freq = constrain(map(freq, -15, 15, 50, 5000), 50, 5000);
-    this.dur = constrain(map(dur, -15, 15, 1.5, 0.2), 0, 1.5);
+  setW1(x, y, startT) { // freq = 1/z
+    this.sound = soundObj[0];
+    this.rate = map(this.freq[0], 0.03, 2.5, 0.5, 2.0); // confirm range
     this.amp = 1/this.sumStar;
-    this.osc.freq(this.freq, 0.2, startT);
-    this.BPF.set(this.freq, this.res);
-    this.numPan = map(freq, -15, 15, -1, 1);
-    this.osc.pan(this.numPan);
-    //this.pan3D.set(freq, dur, 0); // x,y,z
-    //this.pan3D.set(-45, -45, 0); // x,y,z
-    //this.pan3D.process(this.osc);
-    this.noiseDust.disconnect();
-    this.noiseDust.connect(this.BPF);
+    if ( y>0 ) {
+      this.amp = map(y, 0.0, 15.0, 0.5, 0.1);
+    } else if (y<0) {
+      this.amp = map(y, 0.0, -15.0, 0.5, 0.1);
+    }
+    this.startT = startT;
+    this.numPan = map(x, -15.0, 15.0, -1.0, 1.0);
+    this.sound.pan(this.numPan);
     
   }
-  setW2(freq, dur, startT) {
-    // this.pan3D = new p5.Panner3D("HRTF");
-    this.noiseDust = new p5.Noise();
-    this.osc = new p5.Oscillator('triangle');
-    this.BPF = new p5.Filter('bandpass');
-    
-    this.res = 15;
-    this.freq = constrain(map(freq, -15, 15, 50, 5000), 50, 5000);
-    this.dur = constrain(map(dur, -15, 15, 1.5, 0.2), 0, 1.5);
+  setW2(x, y, startT) { // freq = 1/z
+    this.sound = soundObj[1];
+    this.rate = map(this.freq[1], 0.03, 2.5, 0.5, 2.0); // confirm range
     this.amp = 1/this.sumStar;
-    this.osc.freq(this.freq, 0.2, startT);
-    this.BPF.set(this.freq, this.res);
-    this.numPan = map(freq, -15, 15, -1, 1);
-    this.osc.pan(this.numPan);
-    //this.pan3D.set(freq, dur, 0); // x,y,z
-    //this.pan3D.set(45, 45, 0); // x,y,z  
-    //this.pan3D.process(this.osc);
-    this.noiseDust.disconnect();
-    this.noiseDust.connect(this.BPF);
-    
+    if ( y>0 ) {
+      this.amp = map(y, 0.0, 15.0, 0.5, 0.1);
+    } else if (y<0) {
+      this.amp = map(y, 0.0, -15.0, 0.5, 0.1);
+    }
+    this.startT = startT;
+    this.numPan = map(x, -15.0, 15.0, -1.0, 1.0);
+    this.sound.pan(this.numPan);    
   }
-  setW3(freq, dur, startT) {
-    this.noiseDust = new p5.Noise();
-    this.osc = new p5.Oscillator('square');
-    //this.BPF = new p5.Filter('bandpass');
-    
-    //this.res = 25;
-    this.freq = constrain(map(freq, -15, 15, 50, 5000), 50, 5000);
-    this.dur = constrain(map(dur, -15, 15, 1.5, 0.2), 0, 1.5);
+  setW3(x, y, startT) { // freq = 1/z
+    this.sound = soundObj[2];
+    this.rate = map(this.freq[2], 0.1, 2.5, 0.5, 2.0); // confirm range
     this.amp = 1/this.sumStar;
-    this.osc.freq(this.freq, 0.2, startT);
-    this.numPan = map(freq, -15, 15, -1, 1);
-    this.osc.pan(this.numPan);
-    //this.BPF.set(this.freq, this.res);
-    
-    //this.noiseDust.disconnect();
-    //this.noiseDust.connect(this.BPF);
-    
+    if ( y>0 ) {
+      this.amp = map(y, 0.0, 15.0, 0.5, 0.1);
+    } else if (y<0) {
+      this.amp = map(y, 0.0, -15.0, 0.5, 0.1);
+    }
+    this.startT = startT;
+    this.numPan = map(x, -15.0, 15.0, -1.0, 1.0);
+    this.sound.pan(this.numPan);    
   }
-  setW4(freq, dur, startT) {
-    this.noiseDust = new p5.Noise();
-    this.osc = new p5.Oscillator('sawtooth');
-    //this.BPF = new p5.Filter('bandpass');
-    
-    //this.res = 25;
-    this.freq = constrain(map(freq, -15, 15, 50, 5000), 50, 5000);
-    this.dur = constrain(map(dur, -15, 15, 1.5, 0.2), 0, 1.5);
+  setW4(x, y, startT) { // freq = 1/z
+    this.sound = soundObj[3];
+    this.rate = map(this.freq[3], 0.1, 2.5, 0.5, 2.0); // confirm range
     this.amp = 1/this.sumStar;
-    this.osc.freq(this.freq, 0.2, startT);
-    this.numPan = map(freq, -15, 15, -1, 1);
-    this.osc.pan(this.numPan);
-    //this.BPF.set(this.freq, this.res);
-    
-    //this.noiseDust.disconnect();
-    //this.noiseDust.connect(this.BPF);
+    if ( y>0 ) {
+      this.amp = map(y, 0.0, 15.0, 0.5, 0.1);
+    } else if (y<0) {
+      this.amp = map(y, 0.0, -15.0, 0.5, 0.1);
+    }
+    this.startT = startT;
+    this.numPan = map(x, -15.0, 15.0, -1.0, 1.0);
+    this.sound.pan(this.numPan);  
     
   }
   
   // methods
-  playNote(wType) {
-    if (wType == 1 || wType == 2) {
-      // start
-      this.noiseDust.start();
-      this.noiseDust.amp(this.amp*2/3, 0.1);
-      this.osc.start();
-      this.osc.amp(this.amp*1/3, 0.1);
-      // stop after duration
-      this.noiseDust.amp(0, 0.1, this.dur);
-      this.osc.amp(0, 0.1, this.dur);
-    
-    } else if (wType == 3 || wType == 4 ) {
-      this.osc.start();
-      this.osc.amp(this.amp, 0.1);
-      // stop after duration
-      this.osc.amp(0, 0.1, this.dur);
-    } 
+  playNote() {
+    this.sound.play(this.startT, this.rate, this.amp);
   }
   
   
 } // end of class
+
+/* add before setup
+function preload() {
+  //soundObj[0] = loadSound('Samples/Kick.mp3');
+  soundObj[0] = loadSound('Samples/Bass.mp3');
+  soundObj[1] = loadSound('Samples/Brass.mp3');
+  soundObj[2] = loadSound('Samples/Pad.mp3');
+  soundObj[3] = loadSound('Samples/Box.mp3');
+  //soundObj[0] = loadSound('Samples/Hihat.mp3');
+}
+*/

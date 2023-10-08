@@ -26,10 +26,12 @@ if (sessionStorage.getItem("far-infrared"))
 
 let colors = {
     'optical': 0xff0000,
-    'near-infrared': 0x00ff00,
+    'near-infrared': 0xeb3f3f,
     'mid-infrared': 0xff00ff,
     'far-infrared': 0xffff00
 };
+
+console.log(data);
 
 // Set up the scenes['mid-infrared']
 let scenes = {};

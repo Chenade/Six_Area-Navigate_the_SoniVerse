@@ -1,21 +1,20 @@
-const button = document.getElementById('myButton');
-button.addEventListener('click', () => {
-    const notePattern1 = ["A", "B", "C", "D", "E", "F", "G", "A", "B", "C"];
-    sessionStorage.setItem('notePattern1', JSON.stringify(notePattern1));
-    window.location.href = "./sound.html";
-});
-
 let limit = {
     'optical': {ra: {min: null, max: null}, dec: {min: null, max: null}, mpro: {min: null, max: null}},
     'near-infrared': {ra: {min: null, max: null}, dec: {min: null, max: null}, mpro: {min: null, max: null}},
     'mid-infrared': {ra: {min: null, max: null}, dec: {min: null, max: null}, mpro: {min: null, max: null}},
     'far-infrared': {ra: {min: null, max: null}, dec: {min: null, max: null}, mpro: {min: null, max: null}},
 };
-let processedContents = {};
+let processedContents = {
+    'optical': [],
+    'near-infrared': [],
+    'mid-infrared': [],
+    'far-infrared': []
+};
 
 document.getElementById('parse_wise').addEventListener('change', handleWise, false);
 document.getElementById('parse_ztf').addEventListener('change', handleZDF, false);
 document.getElementById('parse_2mass').addEventListener('change', handle2mass, false);
+document.getElementById('parse_spiter').addEventListener('change', handleSpiter, false);
 
 function getLimit(value, _limit)
 {
@@ -41,115 +40,120 @@ function getLimit(value, _limit)
     }
 }
 
+function parseWise(contents)
+{
+    const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
+    const databaseValue = databaseLine ? databaseLine[1].trim() : null;
+    
+    if (!databaseValue || !databaseValue.includes("AllWISE"))
+    {
+        alert("Database value does not contain 'ALLWISE'.");
+    }
+    else
+    {
+        const lines = contents.split('\n');
+        let tables = '';
+
+        for (const line of lines) {
+            if (!line.startsWith('\\')) {
+                tables += line + '\n';
+            }
+        }
+
+        const rows = tables.split('\n');
+
+        const headerRow = rows[0].trim().split('|');
+        for(const i in headerRow) {
+            headerRow[i] = headerRow[i].trim();
+        }
+
+        const raIndex = headerRow.indexOf('ra') - 1;
+        const decIndex = headerRow.indexOf('dec') - 1;
+        const ph_qualIndex = headerRow.indexOf('ph_qual') - 1;
+        const cc_flagsIndex = headerRow.indexOf('cc_flags') - 1;
+
+        const w1satIndex = headerRow.indexOf('w1sat') - 1;
+        const w1snrIndex = headerRow.indexOf('w1snr') - 1;
+        const w1mproIndex = headerRow.indexOf('w1mpro') - 1;
+
+        const w2satIndex = headerRow.indexOf('w2sat') - 1;
+        const w2snrIndex = headerRow.indexOf('w2snr') - 1;
+        const w2mproIndex = headerRow.indexOf('w2mpro') - 1;
+
+        const w3satIndex = headerRow.indexOf('w3sat') - 1;
+        const w3snrIndex = headerRow.indexOf('w3snr') - 1;
+        const w3mproIndex = headerRow.indexOf('w3mpro') - 1;
+
+        const w4satIndex = headerRow.indexOf('w4sat') - 1;
+        const w4snrIndex = headerRow.indexOf('w4snr') - 1;
+        const w4mproIndex = headerRow.indexOf('w4mpro') - 1;
+
+        for (let i = 4; i < rows.length; i++)
+        {
+            const columns = rows[i].trim().split(/\s+/);
+            const ra = parseFloat(columns[raIndex]);
+            const dec = parseFloat(columns[decIndex]);
+            const ph_qual = columns[ph_qualIndex];
+            const cc_flags = columns[cc_flagsIndex];
+
+            const w1mpro = parseFloat(columns[w1mproIndex]);
+            const w1sat = parseFloat(columns[w1satIndex]);
+            const w1snr = parseFloat(columns[w1snrIndex]);
+
+            const w2mpro = parseFloat(columns[w2mproIndex]);
+            const w2sat = parseFloat(columns[w2satIndex]);
+            const w2snr = parseFloat(columns[w2snrIndex]);
+
+            const w3mpro = parseFloat(columns[w3mproIndex]);
+            const w3sat = parseFloat(columns[w3satIndex]);
+            const w3snr = parseFloat(columns[w3snrIndex]);
+
+            const w4mpro = parseFloat(columns[w4mproIndex]);
+            const w4sat = parseFloat(columns[w4satIndex]);
+            const w4snr = parseFloat(columns[w4snrIndex]);
+
+            if (processedContents['mid-infrared'] == null) {
+                processedContents['mid-infrared'] = [];
+            }
+            // if (ph_qual != null && (ph_qual[0] == 'A')
+            //     && cc_flags == "0000" && w1sat < 0.08 && w1snr > 5)
+            // {
+            //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w1mpro});
+            //     getLimit([ra, dec, w1mpro], limit['mid-infrared']);
+            // }
+
+            if (ph_qual != null && (ph_qual[1] == 'A')
+                && cc_flags == "0000" && w2sat < 0.1 && w2snr > 5)
+            {
+                processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w2mpro});
+                getLimit([ra, dec, w2mpro], limit['mid-infrared']);
+            }
+
+            // if (ph_qual != null && (ph_qual[2] == 'A')
+            //     && cc_flags == "0000" && w3sat < 0.1 && w3snr > 5)
+            // {
+            //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w3mpro});
+            //     getLimit([ra, dec, w3mpro], limit['mid-infrared']);
+            // }
+
+            // if (ph_qual != null && (ph_qual[3] == 'A')
+            //     && cc_flags == "0000" && w4sat < 0.1 && w4snr > 5)
+            // {
+            //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w4mpro});
+            //     getLimit([ra, dec, w4mpro], limit['mid-infrared']);
+            // }
+        }
+        printData(processedContents, limit, 'mid-infrared');
+    }
+}
+
 function handleWise(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = function(e) {
         const contents = e.target.result;
-        const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
-        const databaseValue = databaseLine ? databaseLine[1].trim() : null;
-        
-        if (!databaseValue || !databaseValue.includes("AllWISE"))
-        {
-            alert("Database value does not contain 'ALLWISE'.");
-        }
-        else
-        {
-            const lines = contents.split('\n');
-            let tables = '';
-
-            for (const line of lines) {
-                if (!line.startsWith('\\')) {
-                    tables += line + '\n';
-                }
-            }
-
-            const rows = tables.split('\n');
-
-            const headerRow = rows[0].trim().split('|');
-            for(const i in headerRow) {
-                headerRow[i] = headerRow[i].trim();
-            }
-
-            const raIndex = headerRow.indexOf('ra') - 1;
-            const decIndex = headerRow.indexOf('dec') - 1;
-            const ph_qualIndex = headerRow.indexOf('ph_qual') - 1;
-            const cc_flagsIndex = headerRow.indexOf('cc_flags') - 1;
-
-            const w1satIndex = headerRow.indexOf('w1sat') - 1;
-            const w1snrIndex = headerRow.indexOf('w1snr') - 1;
-            const w1mproIndex = headerRow.indexOf('w1mpro') - 1;
-
-            const w2satIndex = headerRow.indexOf('w2sat') - 1;
-            const w2snrIndex = headerRow.indexOf('w2snr') - 1;
-            const w2mproIndex = headerRow.indexOf('w2mpro') - 1;
-
-            const w3satIndex = headerRow.indexOf('w3sat') - 1;
-            const w3snrIndex = headerRow.indexOf('w3snr') - 1;
-            const w3mproIndex = headerRow.indexOf('w3mpro') - 1;
-
-            const w4satIndex = headerRow.indexOf('w4sat') - 1;
-            const w4snrIndex = headerRow.indexOf('w4snr') - 1;
-            const w4mproIndex = headerRow.indexOf('w4mpro') - 1;
-
-            for (let i = 4; i < rows.length; i++)
-            {
-                const columns = rows[i].trim().split(/\s+/);
-                const ra = parseFloat(columns[raIndex]);
-                const dec = parseFloat(columns[decIndex]);
-                const ph_qual = columns[ph_qualIndex];
-                const cc_flags = columns[cc_flagsIndex];
-
-                const w1mpro = parseFloat(columns[w1mproIndex]);
-                const w1sat = parseFloat(columns[w1satIndex]);
-                const w1snr = parseFloat(columns[w1snrIndex]);
-
-                const w2mpro = parseFloat(columns[w2mproIndex]);
-                const w2sat = parseFloat(columns[w2satIndex]);
-                const w2snr = parseFloat(columns[w2snrIndex]);
-
-                const w3mpro = parseFloat(columns[w3mproIndex]);
-                const w3sat = parseFloat(columns[w3satIndex]);
-                const w3snr = parseFloat(columns[w3snrIndex]);
-
-                const w4mpro = parseFloat(columns[w4mproIndex]);
-                const w4sat = parseFloat(columns[w4satIndex]);
-                const w4snr = parseFloat(columns[w4snrIndex]);
-
-                if (processedContents['mid-infrared'] == null) {
-                    processedContents['mid-infrared'] = [];
-                }
-                // if (ph_qual != null && (ph_qual[0] == 'A')
-                //     && cc_flags == "0000" && w1sat < 0.08 && w1snr > 5)
-                // {
-                //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w1mpro});
-                //     getLimit([ra, dec, w1mpro], limit['mid-infrared']);
-                // }
-
-                if (ph_qual != null && (ph_qual[1] == 'A')
-                    && cc_flags == "0000" && w2sat < 0.1 && w2snr > 5)
-                {
-                    processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w2mpro});
-                    getLimit([ra, dec, w2mpro], limit['mid-infrared']);
-                }
-
-                // if (ph_qual != null && (ph_qual[2] == 'A')
-                //     && cc_flags == "0000" && w3sat < 0.1 && w3snr > 5)
-                // {
-                //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w3mpro});
-                //     getLimit([ra, dec, w3mpro], limit['mid-infrared']);
-                // }
-
-                // if (ph_qual != null && (ph_qual[3] == 'A')
-                //     && cc_flags == "0000" && w4sat < 0.1 && w4snr > 5)
-                // {
-                //     processedContents['mid-infrared'].push({"ra":ra, "dec": dec, "wavelength": w4mpro});
-                //     getLimit([ra, dec, w4mpro], limit['mid-infrared']);
-                // }
-            }
-            printData(processedContents, limit, 'mid-infrared');
-        }
+        parseWise(contents);
     };
     reader.readAsText(file);
 }
@@ -193,6 +197,7 @@ function handleZDF(event) {
             const ngoodobsIndex = headerRow.indexOf('ngoodobs') - 1;
             const astrometricrmsIndex = headerRow.indexOf('astrometricrms') - 1;
             const vonneumannratioIndex = headerRow.indexOf('vonneumannratio') - 1;
+            const filtercodeIndex = headerRow.indexOf('filtercode') - 1;
 
             for (let i = 4; i < rows.length; i++)
             {
@@ -206,8 +211,9 @@ function handleZDF(event) {
                 const ngoodobs = parseFloat(columns[ngoodobsIndex]);
                 const astrometricrms = parseFloat(columns[astrometricrmsIndex]);
                 const vonneumannratio = parseFloat(columns[vonneumannratioIndex]);
+                const filtercode = columns[filtercodeIndex];
 
-                if (refsnr > 5 && nobs > 3 && ngoodobs > 3 && astrometricrms <= 0.3 && vonneumannratio > 0.7 && vonneumannratio < 1.3)
+                if (refsnr > 5 && nobs > 3 && ngoodobs > 3 && astrometricrms <= 0.3 && vonneumannratio > 0.7 && vonneumannratio < 1.3 && filtercode == 'zg')
                 {
                     if (processedContents['optical'] == null) {
                         processedContents['optical'] = [];
@@ -328,15 +334,79 @@ function handle2mass(event) {
     reader.readAsText(file);
 }
 
+function parseSpiter(contents)
+{
+    const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
+    const databaseValue = databaseLine ? databaseLine[1].trim() : null;
+    
+    if (!databaseValue || !databaseValue.includes("dr4_off_cloud_full"))
+    {
+        alert("Database value does not contain 'dr4_off_cloud_full'.");
+    }
+    else
+    {
+        const lines = contents.split('\n');
+        let tables = '';
+
+        for (const line of lines) {
+            if (!line.startsWith('\\')) {
+                tables += line + '\n';
+            }
+        }
+
+        const rows = tables.split('\n');
+
+        const headerRow = rows[0].trim().split('|');
+        for(const i in headerRow) {
+            headerRow[i] = headerRow[i].trim();
+        }
+        
+        const raIndex = headerRow.indexOf('ra');
+        const decIndex = headerRow.indexOf('dec');
+        const q_posIndex = headerRow.indexOf('q_pos');
+        const q_mergeIndex = headerRow.indexOf('q_merge');
+        const j_flux_cIndex = headerRow.indexOf('j_flux_c');
+
+        for (let i = 4; i < rows.length; i++)
+        {
+            const columns = rows[i].trim().split(/\s+/);
+            const ra = parseFloat(columns[raIndex]);
+            const dec = parseFloat(columns[decIndex]);
+
+            const q_pos = (columns[q_posIndex]);
+            const q_merge = (columns[q_mergeIndex]);
+            const j_flux_c = parseFloat(columns[j_flux_cIndex]);
+
+            if (q_pos == 'A' && q_merge == 'A')
+            {
+                if (processedContents['far-infrared'] == null) {
+                    processedContents['far-infrared'] = [];
+                }
+                processedContents['far-infrared'].push({"ra":ra, "dec": dec, "wavelength": j_flux_c});
+                getLimit([ra, dec, j_flux_c ], limit['far-infrared']);
+            }
+        }
+        printData(processedContents, limit, 'far-infrared');
+    }
+}
+
+function handleSpiter(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const contents = e.target.result;
+        parseSpiter(contents);
+    };
+    reader.readAsText(file);
+}
+
 function printData(processedContents, limit, category)
 {
     let output = [];
     normalizeToUnitRange(processedContents, limit, output);
-    document.getElementById('output').textContent = JSON.stringify(output);
     sessionStorage.setItem(category, JSON.stringify(output[category]));
-    console.log(processedContents);
-
-    // window.location.href = "./cube";
+    console.log(output);
 }
 
 function normalizeToUnitRange(processedContents, limit, output)

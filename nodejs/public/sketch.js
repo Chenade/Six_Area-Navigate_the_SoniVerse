@@ -3,7 +3,6 @@ let cnvWidth, cnvHeight;
 let playButton;
 let spectrum, fft;
 let cnv;
-let start = false;
 
 let data = {};
 
@@ -49,14 +48,6 @@ for (let i = 0; i < 4; i++)
 }
 
 
-/* add before setup*/
-let soundObj = [];
-function preload() {
-  soundObj[0] = loadSound('./p5js/Samples/Bass.mp3');
-  soundObj[1] = loadSound('./p5js/Samples/Brass.mp3');
-  soundObj[2] = loadSound('./p5js/Samples/Pad.mp3');
-  soundObj[3] = loadSound('./p5js/Samples/Box.mp3');
-}
 
 function setup() {
   // Set canvas dimensions based on the container size
@@ -80,7 +71,7 @@ function setup() {
     {
       if (!data.W1[i][j]) continue;
       sStar.W1[i + j] = new starsound(sumStar[i]);
-      sStar.W1[i + j].setW1(data.W1[i][j][0], data.W1[i][j][1], i *0.2);
+      sStar.W1[i + j].setW1(data.W1[i][j][0], data.W1[i][j][1], i * 2000);
     }
   }
 
@@ -91,7 +82,7 @@ function setup() {
     {
       if (!data.W2[i][j]) continue;
       sStar.W2[i + j] = new starsound(sumStar[i]);
-      sStar.W2[i + j].setW2(data.W2[i][j][0], data.W2[i][j][1], i *0.2);
+      sStar.W2[i + j].setW2(data.W2[i][j][0], data.W2[i][j][1], i * 2000);
     }
   }
 
@@ -102,7 +93,7 @@ function setup() {
     {
       if (!data.W3[i][j]) continue;
       sStar.W3[i + j] = new starsound(sumStar[i]);
-      sStar.W3[i + j].setW3(data.W3[i][j][0], data.W3[i][j][1], i *0.2);
+      sStar.W3[i + j].setW3(data.W3[i][j][0], data.W3[i][j][1], i * 2000);
     }
   }
 
@@ -113,10 +104,21 @@ function setup() {
     {
       if (!data.W4[i][j]) continue;
       sStar.W4[i + j] = new starsound(sumStar[i]);
-      sStar.W4[i + j].setW4(data.W4[i][j][0], data.W4[i][j][1], i *0.2);
+      sStar.W4[i + j].setW4(data.W4[i][j][0], data.W4[i][j][1], i * 2000);
     }
   }
  
+  // // create click play button
+  // playButton = createButton('Play Sound');
+  // // playButton.position(cnvWidth/2, cnvHeight*1/5);
+  // playButton.position(cnvWidth / 2 - playButton.width / 2, cnvHeight * 1/5);
+  // playButton.mousePressed(clickPlay);
+  let playButtonContainer = select('#play-button-container');
+  playButton = createButton('Play Sound');
+  playButton.position(windowWidth / 2 - playButton.width / 2, windowHeight * 1/5);
+  playButton.mousePressed(clickPlay);
+  playButton.parent(playButtonContainer);
+  
   // create fft
   fft = new p5.FFT();
   
@@ -135,23 +137,26 @@ function draw() {
 }
 
 function clickPlay() {
-  start = true;
   background(180);
   for (const i in sStar.W1)
   {
-    sStar.W1[i].playNote();
+    sStar.W1[i].playNote(1);
+    print("W1 is playing" + second());
   }
   for (const i in sStar.W2)
   {
-    sStar.W2[i].playNote();
+    sStar.W2[i].playNote(2);
+    print("W2 is playing" + second());
   }
   for (const i in sStar.W3)
   {
-    sStar.W3[i].playNote();
+    sStar.W3[i].playNote(3);
+    print("W3 is playing" + second());
   }
   for (const i in sStar.W4)
   {
-    sStar.W4[i].playNote();
+    sStar.W4[i].playNote(4);
+    print("W4 is playing" + second());
   }
   
 }
