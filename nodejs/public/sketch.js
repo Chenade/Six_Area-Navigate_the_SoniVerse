@@ -24,11 +24,11 @@ if (sessionStorage.getItem("mid-infrared"))
     // sessionStorage.removeItem("mid-infrared");
 }
 
-// if (sessionStorage.getItem("far-infrared"))
-// {
-//     data["W4"] = JSON.parse(sessionStorage.getItem("far-infrared"));
-//     // sessionStorage.removeItem("far-infrared");
-// }
+ if (sessionStorage.getItem("far-infrared"))
+ {
+     data["W4"] = JSON.parse(sessionStorage.getItem("far-infrared"));
+     // sessionStorage.removeItem("far-infrared");
+ }
 
 let sStar = {
   "W1": [],
@@ -53,16 +53,16 @@ function setup() {
   // Set canvas dimensions based on the container size
   cnvWidth = select('#canvas-container').width;
   cnvHeight = select('#canvas-container').height;
-  
+
   // Create canvas and parent it to the container
   cnv = createCanvas(cnvWidth, cnvHeight);
   cnv.parent('canvas-container');
-  
+
   // Set the background color
   background(5);
 
   let index = 0;
-  
+
   // extract data
   for (const i in data.W1)
   {
@@ -107,7 +107,7 @@ function setup() {
       sStar.W4[i + j].setW4(data.W4[i][j][0], data.W4[i][j][1], i * 2000);
     }
   }
- 
+
   // // create click play button
   // playButton = createButton('Play Sound');
   // // playButton.position(cnvWidth/2, cnvHeight*1/5);
@@ -118,10 +118,10 @@ function setup() {
   playButton.position(windowWidth / 2 - playButton.width / 2, windowHeight * 1/5);
   playButton.mousePressed(clickPlay);
   playButton.parent(playButtonContainer);
-  
+
   // create fft
   fft = new p5.FFT();
-  
+
 }
 
 function draw() {
@@ -133,7 +133,7 @@ function draw() {
     let x = map(i, 0, spectrum.length, 0, width);
     let h = -height + map(spectrum[i], 0, 255, height, 0);
     rect(x, height, width / spectrum.length, h )
-  }  
+  }
 }
 
 function clickPlay() {
@@ -158,5 +158,5 @@ function clickPlay() {
     sStar.W4[i].playNote(4);
     print("W4 is playing" + second());
   }
-  
+
 }

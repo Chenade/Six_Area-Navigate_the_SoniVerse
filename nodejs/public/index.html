@@ -7,21 +7,21 @@
         body { margin: 0; }
         canvas { display: block; }
         button { margin: 10px; }
-        .btn-action { 
-            background-color: #EEEEEE; 
+        .btn-action {
+            background-color: #EEEEEE;
             border-radius: 10px;
             padding: 5px;
             min-width: 200px;
         }
-        .btn-action-outline { 
-            color: #EEEEEE; 
+        .btn-action-outline {
+            color: #EEEEEE;
             background-color: transparent;
             border: #EEEEEE solid 3px;
             border-radius: 10px;
             padding: 5px;
         }
-        .btn-action-outline:hover{ 
-            color: #222 222;    
+        .btn-action-outline:hover{
+            color: #222 222;
             background-color: #EEEEEE;
         }
     </style>
@@ -62,7 +62,7 @@
                     <p>IRAS: <input type="file" id="parse_spiter"><br></p>
                 </div>
                 <select id="select-object" style="
-                            margin-top: 10px; 
+                            margin-top: 10px;
                             width: 70%;
                             font-size: 1.2em;
                             border-radius: 10px;
@@ -78,32 +78,36 @@
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
         <div class="modal-content"  style="color: #222222">
             <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Retrieving Data from IRSA:</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="color: #222222">
-                Step 1: Open your web browser and navigate to IRSA's homepage(https://irsa.ipac.caltech.edu/frontpage/).<br>
-                Step 2: On the middle left side of the page, you'll see an option titled "IRSA Viewer". Click on it.<br>
-                Step 3: Once you're in the viewer, navigate to the sub-navigation bar and click on "Catalogs".<br>
-                Step 4:<br>
-                At the top left corner, you'll find a drop-down bar labeled "Select Project". This is where you choose the astronomical mission or survey of interest. Options include "ZTF", "2MASS", "WISE", and "IRAS".<br>
-                For "WISE", select "ALLWISE Database" or "ALLWISE Source Catalog" based on the specific data you're interested in.<br>
+                <p style="margin-bottom: 1em;">Step 1: <br>
+				Open your web browser and navigate to IRSA's homepage(https://irsa.ipac.caltech.edu/frontpage/).</p>
+                <p style="margin-bottom: 1em;">Step 2:<br>
+				On the middle left side of the page, you'll see an option titled "IRSA Viewer". Click on it.</p>
+                <p style="margin-bottom: 1em;">Step 3:<br>
+				Once you're in the viewer, navigate to the sub-navigation bar and click on "Catalogs".</p>
+                <p style="margin-bottom: 1em;">Step 4:<br>
+				At the top left corner, you'll find a drop-down bar labeled "Select Project". This is where you choose the astronomical mission or survey of interest. Options include "ZTF", "2MASS", "WISE", and "IRAS".<br>
+                For "WISE", select "ALLWISE Source Catalog" based on the specific data you're interested in.<br>
                 For "ZTF", options include "ZTF Archive" and "ZTF DR19 Objects".<br>
-                For "IRAS", you can select "IRAS Faint Source Catalog v2.0 (FSC)".<br>
-                Step 5:<br>
-                Enter the coordinates or object name in the search bar located at the<br>
-                top right corner. Additionally, set your desired search method and<br>
-                specify the search radius.<br>
-                Step 6:<br>
-                Scroll down to the table in the middle bottom of the page. Here, you can see a list of variables associated with your selected catalog. Make sure to select all variables to get a comprehensive dataset.<br>
-                Step 7: Click the "Search" button to retrieve the data.<br>
-                Step 8:<br>
+                For "IRAS", you can select "IRAS Faint Source Catalog v2.0 (FSC)".</p>
+                <p style="margin-bottom: 1em;">Step 5:<br>
+                Enter the coordinates or object name in the search bar located at the top right corner. Additionally, set your desired search method and specify the search radius.</p>
+                <p style="margin-bottom: 1em;">Step 6:<br>
+                Scroll down to the table in the middle bottom of the page. Here, you can see a list of variables associated with your selected catalog. Make sure to select all variables to get a comprehensive dataset.</p>
+                <p style="margin-bottom: 1em;">Step 7:<br>
+				Click the "Search" button to retrieve the data.</p>
+                <p style="margin-bottom: 1em;">Step 8:<br>
                 After the data loads, look for the save file icon represented by a floppy disk. Click on it and select the "tbl" format for output.<br>
-                Step 9: To gather data from various wavelengths, repeat the above steps and choose different projects or catalogs as needed.<br>
-                Step 10: Once you have downloaded all the datasets, you can upload them!<br>
+                <p style="margin-bottom: 1em;">Step 9:<br>
+				To gather data from various wavelengths, repeat the above steps and choose different projects or catalogs as needed.</p>
+                <p style="margin-bottom: 1em;">Step 10:<br>
+				Once you have downloaded all the datasets, you can upload them!</p>
             </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -137,10 +141,10 @@
         });
 
         document.getElementById("start").addEventListener("click", () => {
-            switch (selectObject.value) 
+            switch (selectObject.value)
             {
                 case "m4":
-                    for (const i in _groups) 
+                    for (const i in _groups)
                     {
                         sessionStorage.setItem(_groups[i], JSON.stringify(data_m4[_groups[i]]));
                     }
@@ -153,7 +157,7 @@
                     {
                         sessionStorage.setItem(_groups[i], JSON.stringify(data_m16[_groups[i]]));
                     }
-                    // window.location.href = "/cube";
+                     window.location.href = "/cube";
                     break;
                 case "others":
                     window.location.href = "/upload";

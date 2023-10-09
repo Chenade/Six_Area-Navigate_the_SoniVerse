@@ -18,11 +18,11 @@ if (sessionStorage.getItem("mid-infrared"))
     sessionStorage.removeItem("mid-infrared");
 }
 
-// if (sessionStorage.getItem("far-infrared"))
-// {
-//     data["far-infrared"] = JSON.parse(sessionStorage.getItem("far-infrared"));
-//     sessionStorage.removeItem("far-infrared");
-// }
+ if (sessionStorage.getItem("far-infrared"))
+ {
+     data["far-infrared"] = JSON.parse(sessionStorage.getItem("far-infrared"));
+     sessionStorage.removeItem("far-infrared");
+ }
 
 let colors = {
     'optical': 0xff0000,
@@ -98,9 +98,9 @@ scenes['optical'].add(cube['optical']);
 
 const spheres = [];
 // Create spheres for each data point
-for (const [key, value] of Object.entries(data)) 
+for (const [key, value] of Object.entries(data))
 {
-    for (const i in data[key]) 
+    for (const i in data[key])
     {
         const sphereGeometry = new  THREE.SphereGeometry(0.1);
         const sphereMaterial = new THREE.MeshBasicMaterial({ color: colors[key] });

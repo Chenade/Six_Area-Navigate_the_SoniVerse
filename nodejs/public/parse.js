@@ -44,7 +44,7 @@ function parseWise(contents)
 {
     const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
     const databaseValue = databaseLine ? databaseLine[1].trim() : null;
-    
+
     if (!databaseValue || !databaseValue.includes("allwise_p3as_psd"))
     {
         alert("Database value does not contain 'allwise_p3as_psd'.");
@@ -161,12 +161,12 @@ function handleWise(event) {
 function handleZDF(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = function(e) {
         const contents = e.target.result;
         const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
         const databaseValue = databaseLine ? databaseLine[1].trim() : null;
-        
+
         if (!databaseValue || !databaseValue.includes("ZTF"))
         {
             alert("Database value does not contain 'ZTF'.");
@@ -188,7 +188,7 @@ function handleZDF(event) {
             for(const i in headerRow) {
                 headerRow[i] = headerRow[i].trim();
             }
-            
+
             const raIndex = headerRow.indexOf('ra') - 1;
             const decIndex = headerRow.indexOf('dec') - 1;
             const refmagIndex = headerRow.indexOf('refmag') - 1;
@@ -232,12 +232,12 @@ function handleZDF(event) {
 function handle2mass(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = function(e) {
         const contents = e.target.result;
         const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
         const databaseValue = databaseLine ? databaseLine[1].trim() : null;
-        
+
         if (!databaseValue || !databaseValue.includes("2MASS"))
         {
             alert("Database value does not contain '2MASS'.");
@@ -259,7 +259,7 @@ function handle2mass(event) {
             for(const i in headerRow) {
                 headerRow[i] = headerRow[i].trim();
             }
-            
+
             const raIndex = headerRow.indexOf('ra') - 1;
             const decIndex = headerRow.indexOf('dec') - 1;
             const ph_qualIndex = headerRow.indexOf('ph_qual') - 1;
@@ -271,7 +271,7 @@ function handle2mass(event) {
             const j_snrIndex = headerRow.indexOf('j_snr') - 1;
             const j_cmsigIndex = headerRow.indexOf('j_cmsig') - 1;
             const j_mIndex = headerRow.indexOf('j_m') - 1;
-            
+
             const h_snrIndex = headerRow.indexOf('h_snr') - 1;
             const h_cmsigIndex = headerRow.indexOf('h_cmsig') - 1;
             const h_mIndex = headerRow.indexOf('h_m') - 1;
@@ -338,7 +338,7 @@ function parseSpiter(contents)
 {
     const databaseLine = contents.match(/^\\DATABASE = (.+)$/m);
     const databaseValue = databaseLine ? databaseLine[1].trim() : null;
-    
+
     if (!databaseValue || !databaseValue.includes("iraspsc"))
     {
         alert("Database value does not contain 'iraspsc'.");
@@ -360,20 +360,23 @@ function parseSpiter(contents)
         for(const i in headerRow) {
             headerRow[i] = headerRow[i].trim();
         }
-        
+
         const raIndex = headerRow.indexOf('ra');
         const decIndex = headerRow.indexOf('dec');
         const fqual_60Index = headerRow.indexOf('fqual_60');
 
         for (let i = 4; i < rows.length; i++)
         {
-            const columns = rows[i].trim().split(/\s+/);
-            const ra = parseFloat(columns[raIndex]);
-            const dec = parseFloat(columns[decIndex]);
-            const fqual_60 = parseFloat(columns[fqual_60Index]);
-
-            processedContents['far-infrared'].push({"ra":ra, "dec": dec, "wavelength": fqual_60});
-            getLimit([ra, dec, fqual_60 ], limit['far-infrared']);
+			if (rows[i])
+			{
+				const columns = rows[i].trim().split(/\s+/);
+				const ra = parseFloat(columns[raIndex]);
+				const dec = parseFloat(columns[decIndex]);
+				const fqual_60 = parseFloat(columns[fqual_60Index]);
+				processedContents['far-infrared'].push({ "ra": ra, "dec": dec, "wavelength": fqual_60 });
+				console.log(ra, dec, fqual_60);
+				getLimit([ra, dec, fqual_60 ], limit['far-infrared']);
+			}
         }
         printData(processedContents, limit, 'far-infrared');
     }
@@ -382,7 +385,7 @@ function parseSpiter(contents)
 function handleSpiter(event) {
     const file = event.target.files[0];
     const reader = new FileReader();
-    
+
     reader.onload = function(e) {
         const contents = e.target.result;
         parseSpiter(contents);
@@ -395,6 +398,7 @@ function printData(processedContents, limit, category)
     let output = [];
     normalizeToUnitRange(processedContents, limit, output);
     sessionStorage.setItem(category, JSON.stringify(output[category]));
+	console.log(output);
 }
 
 function normalizeToUnitRange(processedContents, limit, output)
