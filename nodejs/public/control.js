@@ -76,6 +76,7 @@ function filterSpheres()
 
 function submit()
 {
+    document.getElementById("loading").style.display = "block";
     const _boxSize = boxSize / 2;
     const sphereRadius = 0.1;
     const numCategories = 270;

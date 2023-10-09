@@ -113,6 +113,10 @@ for (const [key, value] of Object.entries(data))
     }
 }
 
+setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+}, 3000);
+
 // Set up the controls
 let controls = {};
 

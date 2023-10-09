@@ -34,6 +34,17 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 
     <div style="position: absolute; right: 20px; top: 10px; color: #EEEEEE;">Project Source Code:&emsp;<a href="https://github.com/Chenade/Six_Area-Navigate_the_SoniVerse" target="_blank">Chenade/Six_Area-Navigate_the_SoniVerse</a></div>
+    <div  id="loading" style="display: none;">
+        <div style="
+                    display: flex; justify-content: center; align-items: center;
+                    position: absolute; top: 0; left: 0;
+                    width: 100vw; height: 100vh;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    z-index: 5;;
+                        ">
+                        <i style="font-size: 3em;" class="fas fa-spinner fa-spin fa-lg"></i>
+                    </div>
+    </div>
     <div class="container d-flex flex-column justify-content-center" style="height: 99vh;">
         <div class="row w-100" style="height: 50vh;">
             <div class="col-6 d-flex flex-column justify-content-center">
@@ -146,6 +157,7 @@
         });
 
         document.getElementById("start").addEventListener("click", () => {
+            document.getElementById("loading").style.display = "block";
             switch (selectObject.value)
             {
                 case "m4":

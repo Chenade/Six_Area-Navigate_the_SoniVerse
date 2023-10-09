@@ -34,6 +34,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 
+    <div  id="loading" style="display: block;">
+      <div style="
+                  display: flex; justify-content: center; align-items: center;
+                  position: absolute; top: 0; left: 0;
+                  width: 100vw; height: 100vh;
+                  background-color: rgba(0, 0, 0, 0.5);
+                  z-index: 5;;
+                      ">
+                      <i style="font-size: 3em;" class="fas fa-spinner fa-spin fa-lg"></i>
+                  </div>
+      </div>
+
     <div class="d-flex">
       <div id="canvas-container" class="col-9">
           <div id="canvas-optical" style="width: 100%; height: 60vh; background-color: #222222;"></div>

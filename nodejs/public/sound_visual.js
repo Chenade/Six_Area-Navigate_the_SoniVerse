@@ -1,3 +1,7 @@
+setTimeout(() => {
+  document.getElementById("loading").style.display = "none";
+}, 5000);
+
 let info = {
   "m4": {"name": "Messier 4 (m4)", "img": "./img/m4.png"},
   "m16": {"name": "Messier 16 (m16)", "img": "./img/m16.png"},
