@@ -374,7 +374,7 @@ function parseSpiter(contents)
 				const dec = parseFloat(columns[decIndex]);
 				const fqual_60 = parseFloat(columns[fqual_60Index]);
 				processedContents['far-infrared'].push({ "ra": ra, "dec": dec, "wavelength": fqual_60 });
-				console.log(ra, dec, fqual_60);
+				// console.log(ra, dec, fqual_60);
 				getLimit([ra, dec, fqual_60 ], limit['far-infrared']);
 			}
         }
@@ -398,7 +398,7 @@ function printData(processedContents, limit, category)
     let output = [];
     normalizeToUnitRange(processedContents, limit, output);
     sessionStorage.setItem(category, JSON.stringify(output[category]));
-	console.log(output);
+	// console.log(output);
 }
 
 function normalizeToUnitRange(processedContents, limit, output)
