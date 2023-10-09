@@ -6,7 +6,7 @@ let info = {
   "m4": {"name": "Messier 4 (m4)", "img": "./img/m4.png"},
   "m16": {"name": "Messier 16 (m16)", "img": "./img/m16.png"},
   "m80": {"name": "Messier 80 (m80)", "img": "./img/m80.png"},
-  "other": {"name": "Own Data", "img": "./img/m4.png"}
+  "others": {"name": "Own Data", "img": "./img/logo.jpg"}
 }
 
 let colors = {
@@ -20,6 +20,8 @@ let id = sessionStorage.getItem("target");
 if (!id) id = "m4";
 document.getElementById("target_title").innerHTML = info[id].name;
 document.getElementById("target_image").src = info[id].img;
+if (id == "others")
+  document.getElementById("scanner").style.display = "none";
 
 const scenes = new THREE.Scene();
 scenes.background = new THREE.Color(0x222222);
