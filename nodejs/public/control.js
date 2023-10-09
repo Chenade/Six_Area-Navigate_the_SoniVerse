@@ -1,3 +1,6 @@
+let object = {};
+let counter = {};
+
 let info = {
     "m4": {"name": "Messier 4 (m4)", "img": "./img/m4.png"},
     "m16": {"name": "Messier 16 (m16)", "img": "./img/m16.png"},
@@ -41,9 +44,6 @@ function resetView()
         controls[key].dampingFactor = 0.25;
     }
 }
-
-let object = {};
-let counter = {};
 
 function filterSpheres()
 {
