@@ -6,9 +6,9 @@ let info = {
 }
 
 let colors = {
-    'W1': 0xff0000,
+    'W1': 0x00b1fe,
     'W2': 0xeb3f3f,
-    'W3': 0xff00ff,
+    'W3': 0x8c00f7,
     'W4': 0xffff00
 };
 

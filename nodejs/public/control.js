@@ -54,6 +54,8 @@ function filterSpheres()
 
 
     spheres.forEach(sphere => {
+        const _val = document.getElementById("checkbox-" + sphere.freqency).checked;
+        if (!_val) return;
         if (
             sphere.position.x + sphereRadius >= -_boxSize &&
             sphere.position.x - sphereRadius <= _boxSize &&
@@ -80,6 +82,8 @@ function submit()
     const categorySize = 30 / numCategories;
 
     spheres.forEach(sphere => {
+        const _val = document.getElementById("checkbox-" + sphere.freqency).checked;
+        if (!_val) return;
         if (
             sphere.position.x + sphereRadius >= -_boxSize &&
             sphere.position.x - sphereRadius <= _boxSize &&
@@ -89,6 +93,8 @@ function submit()
             sphere.position.z - sphereRadius <= _boxSize
         )
         {
+            const _val = document.getElementById("checkbox-" + sphere.freqency).checked;
+            if (!_val) return;
             if (!sphere.position.x || !sphere.position.y || !sphere.position.z) return;
             sphere.material.color.set( colors[sphere.freqency]);
             const categoryIndex = Math.floor((sphere.position.x + 15) / categorySize);
@@ -109,8 +115,6 @@ function submit()
         data: object,
         k: counter
     }
-
-    console.log(dataset);  
 
     const jsonContent = JSON.stringify(dataset);
     const blob = new Blob([jsonContent], { type: 'application/json' });
@@ -133,3 +137,38 @@ function submit()
         console.error('Error:', error);
     });
 }
+
+function grayOutSpheres(key) {
+    const _boxSize = boxSize / 2;
+    const sphereRadius = 0.1;
+    return function() {
+        spheres.forEach(sphere => {
+            if (sphere.freqency === key) {
+                if (!this.checked) {
+                    sphere.material.color.set(0x808080);
+                } else {
+                    if (
+                        sphere.position.x + sphereRadius >= -_boxSize &&
+                        sphere.position.x - sphereRadius <= _boxSize &&
+                        sphere.position.y + sphereRadius >= -_boxSize &&
+                        sphere.position.y - sphereRadius <= _boxSize &&
+                        sphere.position.z + sphereRadius >= -_boxSize &&
+                        sphere.position.z - sphereRadius <= _boxSize
+                    )
+                    {
+                        sphere.material.color.set( colors[sphere.freqency]);
+                    }
+                    else
+                    {
+                        sphere.material.color.set(0x808080);
+                    }
+                }
+            }
+        });
+    };
+}
+
+document.getElementById("checkbox-optical").addEventListener("change", grayOutSpheres("optical"));
+document.getElementById("checkbox-near-infrared").addEventListener("change", grayOutSpheres("near-infrared"));
+document.getElementById("checkbox-mid-infrared").addEventListener("change", grayOutSpheres("mid-infrared"));
+document.getElementById("checkbox-far-infrared").addEventListener("change", grayOutSpheres("far-infrared"));

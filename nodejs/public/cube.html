@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Three.js Cube with Spheres</title>
+    <title>Navigate the SoniVerse</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -32,59 +32,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 
-    <div class="w-100 d-flex align-items-center" style="background-color: #222222;">
-        <div class="col-3" style="padding: 20px;">
-            <div>
+    <div class="w-100 d-flex align-items-center" style="background-color: #222222; height: 100vh;">
+        <div class="col-3 d-flex align-items-center flex-column" style="height: 95vh;  padding: 0 10px">
+            <div style="height: 9vh; width: 100%;">
                 <button class="btn-action w-100" style="font-size: 1.4em;" onclick=window.location.href="/"><i class="fas fa-arrow-left"></i>&emsp;Reselect Data</button>
             </div>
             <div style="
                 margin-top: 10px;
                 border: #EEEEEE solid 3px;
                 border-radius: 10px;
-                height: 85vh; padding: 20px;
+                height: 95%; padding: 20px;
                 overflow-y: auto; color: #eeeeee"
             >
-            <h6>Band: </h6>
-            <hr>
+            <h5><b>Electromagnetic Bands in Astronomy</b></h5>
             <p><b>1. Optical</b></p>
-            <p>This is in the blue part of the visible spectrum. Observations in visible light provide a classic view of the stars and can highlight regions of ionized gas.</p>
+            <p>Captures the blue part of the visible spectrum, highlighting regions of ionized gas.</p>
             <p><b>2. Near-Infrared</b></p>
-            <p>These wavelengths can penetrate dust more effectively than visible light. Observations in this range can reveal embedded young stars and give a more complete picture of the stellar population.</p>
+            <p>Penetrates dust better than visible light, revealing young stars and offering a fuller view of the stellar population.</p>
             <p><b>3. Mid-Infrared</b></p>
-            <p>This range is sensitive to warm dust and polycyclic aromatic hydrocarbons (PAHs). In star-forming regions like M16, you can learn about the dust temperature, distribution, and the early stages of star formation.</p>
+            <p>Sensitive to warm dust and PAHs, helping understand star-forming regions like M16.</p>
             <p><b>4. Far-Infrared</b></p>
-            <p>This range is dominated by emission from cold dust grains and molecular clouds. It's especially useful for understanding the cooler, denser regions where new stars may be forming.</p>
-            Direction of Sonification
-            Note that the direction of sonification may only run along the values of the right ascension or of the declination, which represents the coordinates of the objects in the universe as observed from earth. The wavelength, on the other hand, is just a tool used by the telescopes to observe the brightness of the stars, and is not a characteristic of the star itself. E.g. sonification from left to right will sonify data in the ascending order of right ascension.
+            <p>Dominated by cold dust and molecular clouds, useful for studying new star formation regions.</p>
+            <h5><b>Direction of Sonification</b></h5>
+            <p>Sonification is based on either right ascension or declination, the celestial coordinates viewed from Earth. While wavelengths measure star brightness, they don't indicate a star's position. For instance, left-to-right sonification uses ascending right ascension values.</p>
             </div>
         </div>
         <div class="col-3" style="height: 95vh;">
             <div style="height: 50%;">
                 <div id="canvas-optical" style="height: 90%; border: #EEEEEE solid 1px;"></div>
-                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
-                        display: flex; justify-content: center; align-items: center ;">Optical</p>
+                <div style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center;">
+                        <p style="margin: 0;">Optical</p>
+                        <input type="checkbox" id="checkbox-optical" style="margin: 0 10px;" checked>
+                </div>
             </div>
             <div style="height: 50%;">
-                <div id="canvas-near-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
-                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
-                        display: flex; justify-content: center; align-items: center ;">Near Infrared</p>
+                <div id="canvas-mid-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <div style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center;">
+                        <p style="margin: 0;">Mid-Infrared</p>
+                        <input type="checkbox" id="checkbox-mid-infrared" style="margin: 0 10px;" checked>
+                </div>
             </div>
         </div>
         <div class="col-3" style="height: 95vh;">
             <div style="height: 50%;">
-                <div id="canvas-mid-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
-                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
-                        display: flex; justify-content: center; align-items: center ;">Mid Infrared</p>
+                <div id="canvas-near-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <div style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center;">
+                        <p style="margin: 0;">Near-Infrared</p>
+                        <input type="checkbox" id="checkbox-near-infrared" style="margin: 0 10px;" checked>
+                </div>
             </div>
             <div style="height: 50%;">
                 <div id="canvas-far-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
-                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
-                        display: flex; justify-content: center; align-items: center ;">Far Infrared</p>
+                <div style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center;">
+                        <p style="margin: 0;">Far-Infrared</p>
+                        <input type="checkbox" id="checkbox-far-infrared" style="margin: 0 10px;" checked>
+                </div>
             </div>
         </div>
-        <div class="col-3 d-flex align-items-center flex-column" style="height: 100vh; padding: 20px">
+        <div class="col-3 d-flex align-items-center flex-column" style="height: 95vh;  padding: 0 10px" >
             <div id="TitleContent" style="height: 9vh; background-color: 222222; position: relative;
-              display: flex; justify-content: center; align-items: center; width: 100%;">
+              display: flex; justify-content: center; align-items: flex-start; width: 100%;">
               <div style="border: #EEEEEE solid 2px; width: 100%; color: #EEEEEE; text-align: center; border-radius: 10px;">
                 <h2 id="target_title">Messier 4</h2>
               </div>
@@ -97,6 +108,12 @@
                 width: 100%;
                 display: flex; flex-direction: column; align-items: center; justify-content: space-around;"
             >
+                <div>
+                    <span>Hint: </span><br>
+                        <span>-&ensp;Only data inside the cube will be processed for sonification.</span><br>
+                        <span>-&ensp;Rotate the cube with your mouse.</span><br>
+                        <span>-&ensp;Check boxes by band names to select for sonification.</span>
+                </div>
                 <button class="btn-action w-100" onclick="resetView()" style="font-size: 1.4em;">Reset View</button>
                 <div style="
                     height: 150px; width: 150px;
@@ -118,7 +135,7 @@
                 </div>
 
                 <div class="w-100">
-                    <h6 class="aligns-left">Move alone with Band axis:</h6>
+                    <h6 class="aligns-left">Move alone with Flux axis:</h6>
                     <div class="d-flex">
                         <button class="btn-action w-100" onclick="moveSpheres(0, 0, 1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-plus"></i>&emsp;</button>
                         <button class="btn-action w-100" onclick="moveSpheres(0, 0, -1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-minus"></i>&emsp;</button>
@@ -133,13 +150,9 @@
                     </div>
                 </div>
 
-                <button class="btn-action w-100" onclick="filterSpheres()" style="font-size: 1.3em;">Filter Spheres Inside the Box</button>
+                <button class="btn-action w-100" onclick="filterSpheres()" style="font-size: 1.3em;">Filter Sphere Inside the Cube</button>
                 <button class="btn btn-dark w-100" onclick="submit()" style="font-size: 1.4em;">Sonify&ensp;!!</button>
-                <div>
-                    <span>Hint: </span><br>
-                        <span>-&ensp;Sonification only process the data in cube!</span><br>
-                        <span>-&ensp;You can use mouse to rotate the cube</span>
-                </div>
+                
             </div>
         </div>
     </div>
