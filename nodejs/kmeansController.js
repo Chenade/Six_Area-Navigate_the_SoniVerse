@@ -2,7 +2,7 @@ const MLKMeans = require('ml-kmeans');
 
 function performKMeansClustering(data, k)
 {
-    for (let nbr = 0; nbr < 90; nbr++)
+    for (let nbr = 0; nbr < 270; nbr++)
     {
         let sum = 0;
         for (const i in  k)
@@ -11,7 +11,7 @@ function performKMeansClustering(data, k)
         }
         for (const i in  k)
         {
-            if ( k[i][nbr])  k[i][nbr] = Math.floor( k[i][nbr] / sum * 50);
+            if ( k[i][nbr])  k[i][nbr] = Math.floor( k[i][nbr] / sum * 30);
         }
     }
 

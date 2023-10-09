@@ -166,22 +166,22 @@ function createTextGeometry(text, position, scenes) {
 // Create text labels for X, Y, and Z axes
 createTextGeometry('ra', { x: boxSize / 2 + 1, y: -boxSize / 2 - 1, z: 0 }, scenes['near-infrared']);
 createTextGeometry('dec', { x: boxSize / 2 + 1, y: 0, z: boxSize / 2 + 1 }, scenes['near-infrared']);
-createTextGeometry('wavelength', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['near-infrared']);
+createTextGeometry('Flux', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['near-infrared']);
 
 // Create text labels for X, Y, and Z axes
 createTextGeometry('ra', { x: boxSize / 2 + 1, y: -boxSize / 2 - 1, z: 0 }, scenes['mid-infrared']);
 createTextGeometry('dec', { x: boxSize / 2 + 1, y: 0, z: boxSize / 2 + 1 }, scenes['mid-infrared']);
-createTextGeometry('wavelength', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['mid-infrared']);
+createTextGeometry('Flux', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['mid-infrared']);
 
 // Create text labels for X, Y, and Z axes
 createTextGeometry('ra', { x: boxSize / 2 + 1, y: -boxSize / 2 - 1, z: 0 }, scenes['far-infrared']);
 createTextGeometry('dec', { x: boxSize / 2 + 1, y: 0, z: boxSize / 2 + 1 }, scenes['far-infrared']);
-createTextGeometry('wavelength', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['far-infrared']);
+createTextGeometry('Flux', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['far-infrared']);
 
 // Create text labels for X, Y, and Z axes
 createTextGeometry('ra', { x: boxSize / 2 + 1, y: -boxSize / 2 - 1, z: 0 }, scenes['optical']);
 createTextGeometry('dec', { x: boxSize / 2 + 1, y: 0, z: boxSize / 2 + 1 }, scenes['optical']);
-createTextGeometry('wavelength', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['optical']);
+createTextGeometry('Flux', { x: 0, y:  -boxSize / 2 - 1, z: boxSize / 2 + 1 }, scenes['optical']);
 
 
 // Set up animation

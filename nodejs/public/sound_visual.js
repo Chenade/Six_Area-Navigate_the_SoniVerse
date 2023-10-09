@@ -1,9 +1,21 @@
+let info = {
+  "m4": {"name": "Messier 4 (m4)", "img": "./img/m4.png"},
+  "m16": {"name": "Messier 16 (m16)", "img": "./img/m16.png"},
+  "m80": {"name": "Messier 80 (m80)", "img": "./img/m80.png"},
+  "other": {"name": "Own Data", "img": "./img/m4.png"}
+}
+
 let colors = {
     'W1': 0xff0000,
     'W2': 0xeb3f3f,
     'W3': 0xff00ff,
     'W4': 0xffff00
 };
+
+let id = sessionStorage.getItem("target");
+if (!id) id = "m4";
+document.getElementById("target_title").innerHTML = info[id].name;
+document.getElementById("target_image").src = info[id].img;
 
 const scenes = new THREE.Scene();
 scenes.background = new THREE.Color(0x222222);
@@ -50,8 +62,8 @@ function animate() {
     renderer.render(scenes, camera);
     if (start && camera.position.z > -15)
     {
-        camera.position.z -= 0.03;
-        scanner.style.left = (parseFloat(scanner.style.left) + 0.3) + 'px';
+        camera.position.z -= 0.005;
+        scanner.style.left = (parseFloat(scanner.style.left) + 0.05) + 'px';
     }
 }
 

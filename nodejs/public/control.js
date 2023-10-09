@@ -1,3 +1,16 @@
+let info = {
+    "m4": {"name": "Messier 4 (m4)", "img": "./img/m4.png"},
+    "m16": {"name": "Messier 16 (m16)", "img": "./img/m16.png"},
+    "m80": {"name": "Messier 80 (m80)", "img": "./img/m80.png"},
+    "other": {"name": "Own Data", "img": "./img/m4.png"}
+  }
+  
+  let id = sessionStorage.getItem("target");
+  if (!id) id = "m4";
+  document.getElementById("target_title").innerHTML = info[id].name;
+//   document.getElementById("target_image").src = info[id].img;
+  
+
 // Function to move all spheres together
 function moveSpheres(deltaX, deltaY, deltaZ) {
     spheres.forEach(sphere => {
@@ -63,7 +76,7 @@ function submit()
 {
     const _boxSize = boxSize / 2;
     const sphereRadius = 0.1;
-    const numCategories = 90;
+    const numCategories = 270;
     const categorySize = 30 / numCategories;
 
     spheres.forEach(sphere => {
@@ -76,6 +89,7 @@ function submit()
             sphere.position.z - sphereRadius <= _boxSize
         )
         {
+            if (!sphere.position.x || !sphere.position.y || !sphere.position.z) return;
             sphere.material.color.set( colors[sphere.freqency]);
             const categoryIndex = Math.floor((sphere.position.x + 15) / categorySize);
             if (!object[sphere.freqency]) object[sphere.freqency] = {};

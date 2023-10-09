@@ -32,40 +32,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 
-    <div class="w-100 d-flex" style="background-color: #222222;">
+    <div class="w-100 d-flex align-items-center" style="background-color: #222222;">
         <div class="col-3" style="padding: 20px;">
             <div>
-                <button class="btn-action-outline w-100" style="font-size: 1.4em;" onclick=window.location.href="/">Reselect Data</button>
+                <button class="btn-action w-100" style="font-size: 1.4em;" onclick=window.location.href="/"><i class="fas fa-arrow-left"></i>&emsp;Reselect Data</button>
             </div>
             <div style="
                 margin-top: 10px;
                 border: #EEEEEE solid 3px;
                 border-radius: 10px;
-                height: 90vh; padding: 20px;
+                height: 85vh; padding: 20px;
                 overflow-y: auto; color: #eeeeee"
             >
-            <h6>Wavelengths</h6>
-            <p><b>Optical</b></p>
-            This is in the blue part of the visible spectrum. Observations in visible light provide a classic view of the stars and can highlight regions of ionized gas.
-            <p><b>Near-Infrared</b></p>
-            These wavelengths can penetrate dust more effectively than visible light. Observations in this range can reveal embedded young stars and give a more complete picture of the stellar population.
-            <p><b>Mid-Infrared</b></p>
-            This range is sensitive to warm dust and polycyclic aromatic hydrocarbons (PAHs). In star-forming regions like M16, you can learn about the dust temperature, distribution, and the early stages of star formation.
-            <p><b>Far-Infrared</b></p>
-            This range is dominated by emission from cold dust grains and molecular clouds. It's especially useful for understanding the cooler, denser regions where new stars may be forming.
+            <h6>Band: </h6>
+            <hr>
+            <p><b>1. Optical</b></p>
+            <p>This is in the blue part of the visible spectrum. Observations in visible light provide a classic view of the stars and can highlight regions of ionized gas.</p>
+            <p><b>2. Near-Infrared</b></p>
+            <p>These wavelengths can penetrate dust more effectively than visible light. Observations in this range can reveal embedded young stars and give a more complete picture of the stellar population.</p>
+            <p><b>3. Mid-Infrared</b></p>
+            <p>This range is sensitive to warm dust and polycyclic aromatic hydrocarbons (PAHs). In star-forming regions like M16, you can learn about the dust temperature, distribution, and the early stages of star formation.</p>
+            <p><b>4. Far-Infrared</b></p>
+            <p>This range is dominated by emission from cold dust grains and molecular clouds. It's especially useful for understanding the cooler, denser regions where new stars may be forming.</p>
             Direction of Sonification
             Note that the direction of sonification may only run along the values of the right ascension or of the declination, which represents the coordinates of the objects in the universe as observed from earth. The wavelength, on the other hand, is just a tool used by the telescopes to observe the brightness of the stars, and is not a characteristic of the star itself. E.g. sonification from left to right will sonify data in the ascending order of right ascension.
             </div>
         </div>
-        <div class="col-3" style="height: 100vh;">
-            <div id="canvas-optical" style="height: 50vh;"></div>
-            <div id="canvas-near-infrared" style="height: 50vh;"></div>
+        <div class="col-3" style="height: 95vh;">
+            <div style="height: 50%;">
+                <div id="canvas-optical" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center ;">Optical</p>
+            </div>
+            <div style="height: 50%;">
+                <div id="canvas-near-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center ;">Near Infrared</p>
+            </div>
         </div>
-        <div class="col-3" style="height: 100vh;">
-            <div id="canvas-mid-infrared" style="height: 50vh;"></div>
-            <div id="canvas-far-infrared" style="height: 50vh;"></div>
+        <div class="col-3" style="height: 95vh;">
+            <div style="height: 50%;">
+                <div id="canvas-mid-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center ;">Mid Infrared</p>
+            </div>
+            <div style="height: 50%;">
+                <div id="canvas-far-infrared" style="height: 90%; border: #EEEEEE solid 1px;"></div>
+                <p style="color: #EEEEEE; border: #EEEEEE solid 1px; padding: 1px; height: 10%; 
+                        display: flex; justify-content: center; align-items: center ;">Far Infrared</p>
+            </div>
         </div>
-        <div class="col-3 d-flex align-items-center" style="height: 100vh; padding: 20px">
+        <div class="col-3 d-flex align-items-center flex-column" style="height: 100vh; padding: 20px">
+            <div id="TitleContent" style="height: 9vh; background-color: 222222; position: relative;
+              display: flex; justify-content: center; align-items: center; width: 100%;">
+              <div style="border: #EEEEEE solid 2px; width: 100%; color: #EEEEEE; text-align: center; border-radius: 10px;">
+                <h2 id="target_title">Messier 4</h2>
+              </div>
+              
+            </div>
             <div style="
                 background-color: #EEEEEE;
                 border-radius: 10px;
@@ -75,35 +99,47 @@
             >
                 <button class="btn-action w-100" onclick="resetView()" style="font-size: 1.4em;">Reset View</button>
                 <div style="
-                    height: 200px; width: 200px;
+                    height: 150px; width: 150px;
                     border: solid #222222 3px;
                     border-radius: 150px;
                     display: flex; justify-content: center; align-items: center; flex-direction: column;
                     "
                 >
                     <div class="d-flex w-100 justify-content-center">
-                        <button class="btn-action" onclick="moveSpheres(0, 1, 0)" style="font-size: 2em; border: none;"><i class="fas fa-caret-up fa-lg"></i></button>
+                        <button class="btn-action" onclick="moveSpheres(0, 1, 0)" style="font-size: 1.4em; border: none;"><i class="fas fa-caret-up fa-lg"></i></button>
                     </div>
                     <div class="d-flex w-100 justify-content-around">
-                        <button class="btn-action" onclick="moveSpheres(-1, 0, 0)" style="font-size: 2em; border: none;"><i class="fas fa-caret-left fa-lg"></i></button>
-                        <button class="btn-action" onclick="moveSpheres(1, 0, 0)" style="font-size: 2em; border: none;"><i class="fas fa-caret-right fa-lg"></i></button>
+                        <button class="btn-action" onclick="moveSpheres(-1, 0, 0)" style="font-size: 1.4em; border: none;"><i class="fas fa-caret-left fa-lg"></i></button>
+                        <button class="btn-action" onclick="moveSpheres(1, 0, 0)" style="font-size: 1.4em; border: none;"><i class="fas fa-caret-right fa-lg"></i></button>
                     </div>
                     <div class="d-flex w-100 justify-content-center">
-                        <button class="btn-action" onclick="moveSpheres(0, -1, 0)" style="font-size: 2em; border: none;"><i class="fas fa-caret-down fa-lg"></i></button>
+                        <button class="btn-action" onclick="moveSpheres(0, -1, 0)" style="font-size: 1.4em; border: none;"><i class="fas fa-caret-down fa-lg"></i></button>
                     </div>
                 </div>
 
-                <div class="d-flex">
-                    <button class="btn-action w-100" onclick="changeDistance(1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-plus"></i>&emsp;</button>
-                    <button class="btn-action w-100" onclick="changeDistance(-1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-minus"></i>&emsp;</button>
+                <div class="w-100">
+                    <h6 class="aligns-left">Move alone with Band axis:</h6>
+                    <div class="d-flex">
+                        <button class="btn-action w-100" onclick="moveSpheres(0, 0, 1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-plus"></i>&emsp;</button>
+                        <button class="btn-action w-100" onclick="moveSpheres(0, 0, -1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-minus"></i>&emsp;</button>
+                    </div>
                 </div>
 
-                <button class="btn-action w-100" onclick="filterSpheres()" style="font-size: 1.4em;">Filter Spheres Inside the Box</button>
-                <button class="btn-action w-100" onclick="submit()" style="font-size: 1.4em;">submit</button>
-                <!-- <input type="checkbox" id="group1Checkbox" checked> Group 1
-                <input type="checkbox" id="group2Checkbox" checked> Group 2
-                <input type="checkbox" id="group3Checkbox" checked> Group 3
-                <input type="checkbox" id="group4Checkbox" checked> Group 4 -->
+                <div class="w-100">
+                    <h6 class="aligns-left">Zoom in/ Zoom out:</h6>
+                    <div class="d-flex">
+                        <button class="btn-action w-100" onclick="changeDistance(1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-plus"></i>&emsp;</button>
+                        <button class="btn-action w-100" onclick="changeDistance(-1)" style="font-size: 1.4em; margin: 3px;">&emsp;<i class="fas fa-minus"></i>&emsp;</button>
+                    </div>
+                </div>
+
+                <button class="btn-action w-100" onclick="filterSpheres()" style="font-size: 1.3em;">Filter Spheres Inside the Box</button>
+                <button class="btn btn-dark w-100" onclick="submit()" style="font-size: 1.4em;">Sonify&ensp;!!</button>
+                <div>
+                    <span>Hint: </span><br>
+                        <span>-&ensp;Sonification only process the data in cube!</span><br>
+                        <span>-&ensp;You can use mouse to rotate the cube</span>
+                </div>
             </div>
         </div>
     </div>

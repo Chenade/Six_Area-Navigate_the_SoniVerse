@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Three.js Cube with Spheres</title>
+    <title>Navigate the SoniVerse</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -33,23 +33,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
 
+    <div style="position: absolute; right: 20px; bottom: 10px; color: #EEEEEE;">Project Source Code:&emsp;<a href="https://github.com/Chenade/Six_Area-Navigate_the_SoniVerse" target="_blank">Chenade/Six_Area-Navigate_the_SoniVerse</a></div>
     <div class="container d-flex flex-column justify-content-center" style="height: 99vh;">
         <div class="row w-100" style="height: 50vh;">
             <div class="col-6 d-flex flex-column justify-content-center">
                 <h1 style="line-height: 3em;">Navigate the SoniVerse</h1>
-                <h4 style="">Come and explore the SoniVerse!</h2>
+                <h4 class="mb-3">Come and explore the SoniVerse!</h2>
                 <h6 style="padding-left: 3em; ">An educational platform that blends interactive 3D visualizations and dynamic sonifications, allowing users to explore celestial wonders while fostering a deeper connection to astronomical data</h4>
                 <hr style="margin: 2em;">
                 <div class="">
-                    <button id="start" class="btn-action" style="font-size: 2em;">Start</button>
+                    <button id="start" class="btn-action" style="font-size: 2em;">Start&ensp;<i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-center align-items-center flex-column">
                 <div id="img-container" style="width: 70%;">
                     <img id="objects-images" src="./img/m4.png" alt="WISE" style="
-                        width: 100%; height: 100%;
+                        width: 100%; height: 90%;
                         object-fit: contain;
                         ">
+                    <p class="w-100 d-flex justify-content-end mb-0"> Image Source&ensp;:&ensp;<a href="https://irsa.ipac.caltech.edu/applications/finderchart/?__action=layout.showDropDown&" target="_blank">IRSA Finder Chart</a></p>
                 </div>
                 <div id="upload-container" style="display: none;">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -61,17 +63,20 @@
                     <p>2MASS: <input type="file" id="parse_2mass"><br></p>
                     <p>IRAS: <input type="file" id="parse_spiter"><br></p>
                 </div>
-                <select id="select-object" style="
+                <div style="width: 70%;">
+                    <p class="w-100 d-flex mb-0"> Choose the Object:</p>
+                    <select id="select-object" style="
                             margin-top: 10px;
-                            width: 70%;
+                            width: 100%;
                             font-size: 1.2em;
                             border-radius: 10px;
-                        ">
+                            ">
                     <option value="m4" style="font-size: 1.1em;">Messier 4 (M4)</option>
                     <option value="m16" style="font-size: 1.1em;">Messier 16 (M16)</option>
                     <option value="m80" style="font-size: 1.1em;">Messier 80 (M80)</option>
                     <option value="others" style="font-size: 1.1em;">Upload Your Own Data</option>
                 </select>
+            </div>
             </div>
         </div>
     </div>
@@ -146,23 +151,31 @@
                 case "m4":
                     for (const i in _groups)
                     {
+                        sessionStorage.removeItem(_groups[i]);
                         sessionStorage.setItem(_groups[i], JSON.stringify(data_m4[_groups[i]]));
                     }
-                    setTimeout(() => {
-                        window.location.href = "/cube";
-                    }, 1500);
                     break;
                 case "m16":
                     for (const i in _groups)
                     {
+                        sessionStorage.removeItem(_groups[i]);
                         sessionStorage.setItem(_groups[i], JSON.stringify(data_m16[_groups[i]]));
                     }
-                     window.location.href = "/cube";
                     break;
-                case "others":
-                    window.location.href = "/upload";
+                case "m80":
+                    for (const i in _groups)
+                    {
+                        sessionStorage.removeItem(_groups[i]);
+                        sessionStorage.setItem(_groups[i], JSON.stringify(data_m80[_groups[i]]));
+                    }
+                    break;
+                default:
                     break;
             }
+            sessionStorage.setItem("target", selectObject.value);
+            setTimeout(() => {
+                window.location.href = "/cube";
+            }, 1500);
         });
     </script>
 </body>

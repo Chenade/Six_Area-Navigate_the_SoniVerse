@@ -1,5 +1,5 @@
 const data_m16 = {
-    "fa-infrared": [
+    "far-infrared": [
         {
             "ra": 0.29483718050969365,
             "dec": 15,
